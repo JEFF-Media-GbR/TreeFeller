@@ -13,7 +13,11 @@ import org.bukkit.inventory.ItemStack;
 public class Drop2InventoryHook {
 
     public static void addOrDrop(Player player, ItemStack itemStack, Location location) {
-        Drop2InventoryAPI.addOrDrop(player, itemStack, location);
+        if(Drop2InventoryAPI.hasDropCollectionEnabled(player)) {
+            Drop2InventoryAPI.addOrDrop(player, itemStack, location);
+        } else {
+            location.getWorld().dropItem(location, itemStack);
+        }
     }
 
 }
