@@ -1,5 +1,6 @@
 package com.minelazz.treefeller;
 
+import com.minelazz.treefeller.hooks.Drop2InventoryHook;
 import org.bukkit.Bukkit;
 import org.bukkit.Effect;
 import org.bukkit.Location;
@@ -94,8 +95,13 @@ public final class TreeCutter extends BukkitRunnable {
                 @Override
                 public void run() {
                     Location center = startBlock.getLocation().add(0.5, 0.5, 0.5);
-                    for (ItemStack stack : startBlock.getDrops())
-                        startBlock.getWorld().dropItem(center, stack);
+                    for (ItemStack stack : startBlock.getDrops()) {
+                        if(TreeFeller.settings.useDrop2Inventory) {
+                            Drop2InventoryHook.addOrDrop(player, stack, center);
+                        } else {
+                            startBlock.getWorld().dropItem(center, stack);
+                        }
+                    }
                     startBlock.getWorld().playEffect(center, Effect.STEP_SOUND, startBlock.getType());
                     startBlock.setType(Material.AIR);
                 }
@@ -184,8 +190,13 @@ public final class TreeCutter extends BukkitRunnable {
                     for (ItemStack drop : block.getDrops()) {
                         if (TreeFeller.settings.instantToInventory)
                             player.getInventory().addItem(drop);
-                        else
-                            startBlock.getWorld().dropItem(center, drop);
+                        else {
+                            if(TreeFeller.settings.useDrop2Inventory) {
+                                Drop2InventoryHook.addOrDrop(player, drop, center);
+                            } else {
+                                startBlock.getWorld().dropItem(center, drop);
+                            }
+                        }
                     }
 
                     item.setDurability((short) (item.getDurability() + 1));

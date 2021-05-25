@@ -16,6 +16,7 @@ public class PluginSettings {
     public boolean instantToInventory = true;
     public boolean plantSapling = true;
     public boolean particles = true;
+    public boolean useDrop2Inventory = false;
 
     public int maxLogBlocksPerCut = 90;
     public int delay = 0;
@@ -29,6 +30,14 @@ public class PluginSettings {
         cuttingSpeed.put(Material.GOLDEN_AXE, 1);
         cuttingSpeed.put(Material.STONE_AXE, 3);
         cuttingSpeed.put(Material.WOODEN_AXE, 4);
+
+        try {
+            // It would be better to just shade the API into the .jar instead of doing this
+            Class.forName("de.jeff_media.drop2inventory.Drop2InventoryAPI");
+            useDrop2Inventory = true;
+        } catch (NoClassDefFoundError | ClassNotFoundException ignored) {
+
+        }
     }
 
     public static void load() {

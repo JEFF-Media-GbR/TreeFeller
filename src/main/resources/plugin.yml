@@ -4,3 +4,6 @@ description: EWG addon
 api-version: 1.14
 website: http://www.spigotmc.org/members/minelazz.11227/
 main: com.minelazz.treefeller.TreeFeller
+softdepend:
+  - Drop2Inventory
+  - Drop2InventoryPlus
